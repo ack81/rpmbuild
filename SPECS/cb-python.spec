@@ -26,44 +26,36 @@ a programmable interface.  Finally, Python is portable: it runs on many
 brands of UNIX, on PCs under Windows, MS-DOS, and OS/2, and on the
 Mac.
 
-#######
-#  PREP
-#######
+
 %prep
 %setup -n Python-%{version}
-# %setup -q
 
-########
-#  BUILD
-########
+
 %build
+# To avoid having to specify the runtime library path using LD_LIBRARY_PATH
+# each time Python is started, you can specify it at build time using the
+# -rpath linker
+export LINKCC="gcc"
+export CC="gcc"
 ./configure \
   --prefix=%{__prefix} \
   --enable-shared \
   --with-threads \
-  --with-ensurepip=install
+  --with-ensurepip=install \
+  LDFLAGS=-Wl,-rpath=%{__prefix}/lib
 make
-# make %{_smp_mflags}
 
-##########
-#  INSTALL
-##########
+
 %install
-make DESTDIR=%{buildroot} install
+make altinstall DESTDIR=%{buildroot}
 
-########
-#  CLEAN
-########
+
 %clean
 [ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
-########
-#  FILES
-########
+
 %files
 %{__prefix}
 
-%changelog
-* Mon Dec 20 2004 Sean Reifschneider <jafo-rpms@tummy.com> [2.4-2pydotorg]
-- Changing the idle wrapper so that it passes arguments to idle.
 
+%changelog
