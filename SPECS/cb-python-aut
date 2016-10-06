@@ -1,0 +1,2 @@
+%global _python_bytecompile_errors_terminate_build 1
+%define debug_package %{nil}

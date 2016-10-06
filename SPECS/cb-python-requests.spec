@@ -1,22 +1,26 @@
-%global _python_bytecompile_errors_terminate_build 0
-%define name requests
+%global _python_bytecompile_errors_terminate_build 1
+%define debug_package %{nil}
+%define __name requests
 %define version 2.10.0
 %define unmangled_version 2.10.0
 %define unmangled_version 2.10.0
 %define release 1
 
 Summary: Python HTTP for Humans.
-Name: %{name}
+Name: cb-python-%{__name}
 Version: %{version}
 Release: %{release}
-Source0: %{name}-%{unmangled_version}.tar.gz
+Source0: %{__name}-%{unmangled_version}.tar.gz
 License: Apache 2.0
 Group: Development/Libraries
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
+BuildRoot: %{_tmppath}/%{__name}-%{version}-%{release}-buildroot
 Prefix: %{_prefix}
 BuildArch: noarch
 Vendor: Kenneth Reitz <me@kennethreitz.com>
+Packager: Adam Kinney <akinney@cloudbolt.io>
 Url: http://python-requests.org
+BuildRequires: cb-python
+AutoReq: 0
 
 %description
 Requests: HTTP for Humans
@@ -1277,13 +1281,13 @@ This is not a backwards compatible change.
 
 
 %prep
-%setup -n %{name}-%{unmangled_version} -n %{name}-%{unmangled_version}
+%setup -n %{__name}-%{unmangled_version} -n %{__name}-%{unmangled_version}
 
 %build
-/opt/cb/bin/python2.7 setup.py build
+/opt/cb/bin/python setup.py build
 
 %install
-/opt/cb/bin/python2.7 setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
+/opt/cb/bin/python setup.py install --single-version-externally-managed -O1 --root=$RPM_BUILD_ROOT --record=INSTALLED_FILES
 
 %clean
 rm -rf $RPM_BUILD_ROOT

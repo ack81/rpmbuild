@@ -1,11 +1,12 @@
 %global _python_bytecompile_errors_terminate_build 0
-%global __debug_package 1
+%define debug_package %{nil}
 %define __prefix /opt/cb
+
 
 Summary: An interpreted, interactive, object-oriented programming language.
 Name: cb-python
 Version: 2.7.12
-Release: 1
+Release: 2
 License: PSF
 Group: Development/Languages
 Source: Python-%{version}.tgz
@@ -14,6 +15,7 @@ Prefix: %{__prefix}
 Packager: Adam Kinney <akinney@cloudbolt.io>
 AutoReq: no
 AutoReqProv: no
+
 
 %description
 Python is an interpreted, interactive, object-oriented programming
